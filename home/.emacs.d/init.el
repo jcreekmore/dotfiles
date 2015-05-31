@@ -57,5 +57,8 @@ Return a list of installed packages or nil for every skipped package."
  ;; If there is more than one, they won't work right.
  )
 
-;disable backup
+;; disable backup
 (setq backup-inhibited t)
+
+;; clean up the screen
+(tool-bar-mode -1)
