@@ -1,3 +1,9 @@
+(if (not (getenv "TERM_PROGRAM"))
+    (setenv "PATH"
+	    (shell-command-to-string "source $HOME/.zshenv && printf $PATH")))
+
+(setq exec-path (split-string (getenv "PATH") ":"))
+
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
 			 ("gnu" . "http://elpa.gnu.org/packages/")))
 
@@ -35,7 +41,6 @@ Return a list of installed packages or nil for every skipped package."
 (package-initialize)
 
 (load-theme 'solarized-dark)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

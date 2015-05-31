@@ -66,8 +66,9 @@ plugins=(brew cabal git git-extras pip)
 
 # User configuration
 
-export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
+
 
 source $ZSH/oh-my-zsh.sh
 
