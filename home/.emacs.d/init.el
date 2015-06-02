@@ -30,6 +30,7 @@ Return a list of installed packages or nil for every skipped package."
 
 (ensure-package-installed
  'expand-region
+ 'haskell-mode
  'helm
  'helm-projectile
  'magit
@@ -49,7 +50,9 @@ Return a list of installed packages or nil for every skipped package."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(magit-use-overlays nil)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -62,3 +65,15 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; clean up the screen
 (tool-bar-mode -1)
+
+(eval-after-load "haskell-mode"
+  '(progn
+     (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+     (define-key haskell-mode-map (kbd "C-x C-d") nil)
+     (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+     (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
+     (define-key haskell-mode-map (kbd "C-c C-b") 'haskell-interactive-switch)
+     (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+     (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+     (define-key haskell-mode-map (kbd "C-c M-.") nil)
+     (define-key haskell-mode-map (kbd "C-c C-d") nil)))
