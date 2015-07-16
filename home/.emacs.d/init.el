@@ -35,13 +35,12 @@ Return a list of installed packages or nil for every skipped package."
  'helm-projectile
  'magit
  'projectile
+ 'rust-mode
  'solarized-theme
  'yasnippet
  )
 
 (package-initialize)
-
-(load-theme 'solarized-dark)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -52,6 +51,7 @@ Return a list of installed packages or nil for every skipped package."
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(magit-use-overlays nil)
+ '(org-confirm-babel-evaluate nil)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -62,6 +62,7 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; disable backup
 (setq backup-inhibited t)
+(setq make-backup-files nil)
 
 ;; clean up the screen
 (tool-bar-mode -1)
@@ -77,3 +78,34 @@ Return a list of installed packages or nil for every skipped package."
      (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
      (define-key haskell-mode-map (kbd "C-c M-.") nil)
      (define-key haskell-mode-map (kbd "C-c C-d") nil)))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(global-set-key (kbd "<f12>") 'magit-status)
+
+(load-theme 'solarized-dark)
+
+(require 'helm)
+(require 'helm-config)
+
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(helm-mode 1)
+
+(desktop-save-mode)
