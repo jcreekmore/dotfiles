@@ -34,6 +34,9 @@ Return a list of installed packages or nil for every skipped package."
  'helm
  'helm-projectile
  'magit
+ 'markdown-mode
+ 'markdown-mode+
+ 'markdown-toc
  'projectile
  'rust-mode
  'solarized-theme
