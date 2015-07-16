@@ -1,6 +1,7 @@
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
+fpath=(/usr/local/share/zsh/site-functions $fpath)
 
 GIT_AUTHOR_EMAIL="jonathan@thecreekmores.org"
 export GIT_AUTHOR_EMAIL
