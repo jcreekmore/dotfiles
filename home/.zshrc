@@ -16,7 +16,7 @@ export GIT_COMMITTER_NAME
 
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/jonathan/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
