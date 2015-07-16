@@ -37,6 +37,7 @@ Return a list of installed packages or nil for every skipped package."
  'projectile
  'rust-mode
  'solarized-theme
+ 'yaml-mode
  'yasnippet
  )
 
