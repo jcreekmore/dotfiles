@@ -3,3 +3,5 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 export MANPATH="/usr/local/man:$MANPATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+ACK_PAGER_COLOR="less -R"
