@@ -29,10 +29,12 @@ Return a list of installed packages or nil for every skipped package."
     (package-refresh-contents))
 
 (ensure-package-installed
+ 'ack
  'expand-region
  'haskell-mode
  'helm
  'helm-projectile
+ 'helm-ag
  'magit
  'markdown-mode
  'markdown-mode+
@@ -51,6 +53,7 @@ Return a list of installed packages or nil for every skipped package."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ack-command "ack-grep --noenv")
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
@@ -111,5 +114,11 @@ Return a list of installed packages or nil for every skipped package."
       helm-ff-file-name-history-use-recentf t)
 
 (helm-mode 1)
+
+(projectile-global-mode)
+(require 'helm-projectile)
+(helm-projectile-on)
+
+(setenv "ACK_PAGER_COLOR" "")
 
 (desktop-save-mode)
