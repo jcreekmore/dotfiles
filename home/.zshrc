@@ -75,13 +75,15 @@ plugins=(brew cabal git git-extras pip)
 
 if [[ -z ${SSH_AUTH_SOCK} ]]; then
 	plugins+=( ssh-agent )
+
+	zstyle :omz:plugins:ssh-agent agent-forwarding on
+	zstyle :omz:plugins:ssh-agent lifetime 1h
 fi
 
 # User configuration
 
 # export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
-
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,3 +111,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
