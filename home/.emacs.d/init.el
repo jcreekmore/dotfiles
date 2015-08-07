@@ -57,6 +57,7 @@ Return a list of installed packages or nil for every skipped package."
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(magit-use-overlays nil)
  '(org-confirm-babel-evaluate nil)
  '(tool-bar-mode nil))
@@ -120,5 +121,11 @@ Return a list of installed packages or nil for every skipped package."
 (helm-projectile-on)
 
 (setenv "ACK_PAGER_COLOR" "")
+
+(defun jec/markdown-hook ()
+  (setq indent-tabs-mode nil))
+
+(add-hook 'markdown-mode-hook 'jec/markdown-hook)
+
 
 (desktop-save-mode)
