@@ -71,7 +71,11 @@ ZSH_THEME="gnzh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew cabal git git-extras pip ssh-agent)
+plugins=(brew cabal git git-extras pip)
+
+if [[ -z ${SSH_AUTH_SOCK} ]]; then
+	plugins+=( ssh-agent )
+fi
 
 # User configuration
 
