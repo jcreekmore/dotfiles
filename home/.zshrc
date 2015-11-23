@@ -3,17 +3,17 @@ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
 
-if [[ $(hostname) == "Gamora" ]]; then
-	GIT_AUTHOR_EMAIL="jonathan@starlab.io"
-	export GIT_AUTHOR_EMAIL
-
-	GIT_COMMITTER_EMAIL="jonathan@starlab.io"
-	export GIT_COMMITTER_EMAIL
-else
+if [[ $(hostname -s) == "Nebula" ]]; then
 	GIT_AUTHOR_EMAIL="jonathan@thecreekmores.org"
 	export GIT_AUTHOR_EMAIL
 
 	GIT_COMMITTER_EMAIL="jonathan@thecreekmores.org"
+	export GIT_COMMITTER_EMAIL
+else
+	GIT_AUTHOR_EMAIL="jonathan@star.lab"
+	export GIT_AUTHOR_EMAIL
+
+	GIT_COMMITTER_EMAIL="jonathan@star.lab"
 	export GIT_COMMITTER_EMAIL
 fi
 
