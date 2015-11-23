@@ -3,3 +3,7 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 export MANPATH="/usr/local/man:$MANPATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+if [[ -x /usr/libexec/path_helper ]]; then
+	eval `/usr/libexec/path_helper -s`
+fi
