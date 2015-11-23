@@ -3,11 +3,19 @@ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
 
-GIT_AUTHOR_EMAIL="jonathan@thecreekmores.org"
-export GIT_AUTHOR_EMAIL
+if [[ $(hostname) == "Gamora" ]]; then
+	GIT_AUTHOR_EMAIL="jonathan@starlab.io"
+	export GIT_AUTHOR_EMAIL
 
-GIT_COMMITTER_EMAIL="jonathan@thecreekmores.org"
-export GIT_COMMITTER_EMAIL
+	GIT_COMMITTER_EMAIL="jonathan@starlab.io"
+	export GIT_COMMITTER_EMAIL
+else
+	GIT_AUTHOR_EMAIL="jonathan@thecreekmores.org"
+	export GIT_AUTHOR_EMAIL
+
+	GIT_COMMITTER_EMAIL="jonathan@thecreekmores.org"
+	export GIT_COMMITTER_EMAIL
+fi
 
 GIT_AUTHOR_NAME="Jonathan Creekmore"
 export GIT_AUTHOR_NAME
@@ -65,11 +73,17 @@ ZSH_THEME="gnzh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(brew cabal git git-extras pip)
 
+if [[ -z ${SSH_AUTH_SOCK} ]]; then
+	plugins+=( ssh-agent )
+
+	zstyle :omz:plugins:ssh-agent agent-forwarding on
+	zstyle :omz:plugins:ssh-agent lifetime 1h
+fi
+
 # User configuration
 
 # export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
-
 
 source $ZSH/oh-my-zsh.sh
 
@@ -97,3 +111,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+

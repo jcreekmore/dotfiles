@@ -29,10 +29,12 @@ Return a list of installed packages or nil for every skipped package."
     (package-refresh-contents))
 
 (ensure-package-installed
+ 'ack
  'expand-region
  'haskell-mode
  'helm
  'helm-projectile
+ 'helm-ag
  'magit
  'markdown-mode
  'markdown-mode+
@@ -55,9 +57,11 @@ Return a list of installed packages or nil for every skipped package."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ack-command "ack-grep --noenv")
  '(custom-safe-themes
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(magit-use-overlays nil)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (ditaa . t))))
  '(org-confirm-babel-evaluate nil)
@@ -132,6 +136,17 @@ Return a list of installed packages or nil for every skipped package."
      truncate-lines nil
      word-wrap t
      use-hard-newlines t)))
+
+(projectile-global-mode)
+(require 'helm-projectile)
+(helm-projectile-on)
+
+(setenv "ACK_PAGER_COLOR" "")
+
+(defun jec/markdown-hook ()
+  (setq indent-tabs-mode nil))
+
+(add-hook 'markdown-mode-hook 'jec/markdown-hook)
 
 (desktop-save-mode)
 

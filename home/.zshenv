@@ -7,3 +7,5 @@ MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 if [[ -x /usr/libexec/path_helper ]]; then
 	eval `/usr/libexec/path_helper -s`
 fi
+
+export ACK_PAGER_COLOR='less -R'

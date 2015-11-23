@@ -19,3 +19,9 @@
 	helper = cache --timeout=3600
 [credential "https://github.com"]
 	username = jcreekmore
+[sendemail]
+	from = Jonathan Creekmore <jonathan.creekmore@gmail.com>
+	smtpserver = smtp.gmail.com
+	smtpuser = jonathan.creekmore@gmail.com
+	smtpencryption = tls
+	smtpserverport = 587
