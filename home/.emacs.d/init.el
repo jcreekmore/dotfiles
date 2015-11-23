@@ -40,11 +40,15 @@ Return a list of installed packages or nil for every skipped package."
  'projectile
  'rust-mode
  'solarized-theme
+ 'web-mode
  'yaml-mode
  'yasnippet
  )
 
 (package-initialize)
+
+(add-to-list 'load-path "/usr/local/Cellar/emacs/24.5/Emacs.app/Contents/share/emacs/site-lisp/gnus")
+(load-file "~/elisp/ProofGeneral-4.2/generic/proof-site.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -55,8 +59,13 @@ Return a list of installed packages or nil for every skipped package."
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(magit-use-overlays nil)
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (ditaa . t))))
  '(org-confirm-babel-evaluate nil)
- '(tool-bar-mode nil))
+ '(org-export-backends (quote (ascii html icalendar latex md)))
+ '(proof-assistants (quote (coq pghaskell)))
+ '(send-mail-function (quote smtpmail-send-it))
+ '(tool-bar-mode nil)
+ '(web-mode-enable-auto-quoting nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -112,4 +121,32 @@ Return a list of installed packages or nil for every skipped package."
 
 (helm-mode 1)
 
+(display-battery-mode 1)
+(display-time-mode 1)
+
+(setq gnus-treat-fill-long-lines nil)
+
+(add-hook 'message-setup-hook
+  (lambda ()
+    (setq
+     truncate-lines nil
+     word-wrap t
+     use-hard-newlines t)))
+
 (desktop-save-mode)
+
+(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
+(autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
+
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+      (let ((web-mode-enable-part-face nil))
+        ad-do-it)
+    ad-do-it))
+
+(defun jec/web-mode-hook ()
+  (interactive)
+  (setq tab-width 8))
+
+(add-hook 'web-mode-hook 'jec/web-mode-hook)
