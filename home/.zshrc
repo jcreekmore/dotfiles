@@ -3,27 +3,6 @@ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
 
-if [[ $(hostname -s) == "Nebula" ]]; then
-	GIT_AUTHOR_EMAIL="jonathan@thecreekmores.org"
-	export GIT_AUTHOR_EMAIL
-
-	GIT_COMMITTER_EMAIL="jonathan@thecreekmores.org"
-	export GIT_COMMITTER_EMAIL
-else
-	GIT_AUTHOR_EMAIL="jonathan@star.lab"
-	export GIT_AUTHOR_EMAIL
-
-	GIT_COMMITTER_EMAIL="jonathan@star.lab"
-	export GIT_COMMITTER_EMAIL
-fi
-
-GIT_AUTHOR_NAME="Jonathan Creekmore"
-export GIT_AUTHOR_NAME
-
-GIT_COMMITTER_NAME="Jonathan Creekmore"
-export GIT_COMMITTER_NAME
-
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -106,4 +85,3 @@ export EDITOR='vim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-
