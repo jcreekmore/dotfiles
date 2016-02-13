@@ -63,6 +63,15 @@ Return a list of installed packages or nil for every skipped package."
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(magit-use-overlays nil)
+ '(mu4e-bookmarks
+   (quote
+    (("flag:unread AND NOT flag:trashed" "Unread messages" 117)
+     ("date:today..now" "Today's messages" 116)
+     ("date:7d..now" "Last 7 days" 119)
+     ("mime:image/*" "Messages with images" 112)
+     ("(jonathan.creekmore@gmail.com OR cardoe@cardoe.com) AND date:7d..now" "Recent participating in" 115)
+     ("(jonathan.creekmore@gmail.com OR cardoe@cardoe.com) AND flag:unread AND NOT flag:trashed" "Unread participating in" 83))))
+ '(mu4e-get-mail-command "offlineimap")
  '(org-babel-load-languages (quote ((emacs-lisp . t) (ditaa . t))))
  '(org-confirm-babel-evaluate nil)
  '(org-export-backends (quote (ascii html icalendar latex md)))
@@ -165,3 +174,36 @@ Return a list of installed packages or nil for every skipped package."
   (setq tab-width 8))
 
 (add-hook 'web-mode-hook 'jec/web-mode-hook)
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
+(require 'mu4e)
+(require 'mu4e-contrib)
+(define-key mu4e-headers-mode-map (kbd "@") 'mu4e-headers-flag-all-read)
+(global-set-key (kbd "C-c e") 'mu4e)
+
+(setq
+   user-mail-address "jonathan.creekmore@gmail.com"
+   user-full-name  "Jonathan Creekmore"
+   )
+
+(require 'smtpmail)
+(setq message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.gmail.com" 587 "jonathan.creekmore@gmail.com" nil))
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587)
+
+(require 'flymake)
+(when (fboundp 'resize-minibuffer-mode) ; for old emacs
+      (resize-minibuffer-mode)
+      (setq resize-minibuffer-window-exactly nil))
+
+(add-hook
+ 'haskell-mode-hook
+ '(lambda ()
+    (if (not (null buffer-file-name)) (flymake-mode))))
+
+(setq netrc-file "~/.authinfo.gpg")
