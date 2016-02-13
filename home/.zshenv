@@ -12,3 +12,5 @@ if [[ -x /usr/libexec/path_helper ]]; then
 fi
 
 export ACK_PAGER_COLOR='less -R'
+
+export LEDGER_FILE="$HOME/Documents/ledger.dat"
