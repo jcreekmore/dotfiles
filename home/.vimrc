@@ -1,22 +1,28 @@
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2008 Dec 17
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
-
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
+if !isdirectory(expand('~/.vim/bundle/neobundle.vim'))
+	call system('git clone https://github.com/Shougo/neobundle.vim.git
+		\ ~/.vim/bundle/neobundle.vim')
 endif
 
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+if has('vim_starting')
+	if &compatible
+		set nocompatible
+	endif
+
+	set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+" Turn on NeoBundle
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" My Bundles here:
+" Refer to |:NeoBundle-examples|.
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'kergoth/vim-bitbake'
+
+call neobundle#end()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -49,6 +55,9 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+" Install missing bundles
+NeoBundleCheck
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
@@ -77,6 +86,18 @@ if has("autocmd")
 
   augroup END
 
+  " Python files should get PEP8 white space settings
+  autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
+  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+
+  " Markdown not Modula-2...
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+  " Highlight trailing whitespace
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  autocmd InsertEnter * match ExtraWhitespace /\s\+%#\@<!$/
+  autocmd InsertLeave,BufWinEnter * match ExtraWhitespace /\s\+$/
+
 else
 
   set autoindent		" always set autoindenting on
@@ -91,5 +112,14 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-set background=dark
-execute pathogen#infect()
+" Terminals should always be dark. The light is blinding!
+set bg=dark
+
+" 4 space tabs FTW
+set sw=4
+set ts=4
+
+set exrc   " enables per-directory .vimrc files
+set secure " disables unsafe commands in local .vimrc files
+
+NeoBundleSource
