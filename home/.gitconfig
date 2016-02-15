@@ -6,6 +6,7 @@
 
 [alias]
 	review = !sh -c 'repo=$1 && repo=${repo:=origin/master} && git --no-pager log --reverse --oneline ${repo}..' -v
+	revshow = !sh -c 'repo=$1 && repo=${repo:=origin/master} && git --no-pager log --reverse --oneline ${repo}.. | head -n ${0} | tail -n 1 | cut -f1 -d \" \" | xargs git show'
 [core]
 	excludesfile = /Users/jonathan/.gitignore_global
 [difftool "sourcetree"]
