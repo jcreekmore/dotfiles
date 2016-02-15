@@ -49,8 +49,8 @@ Return a list of installed packages or nil for every skipped package."
 
 (package-initialize)
 
-(add-to-list 'load-path "/usr/local/Cellar/emacs/24.5/Emacs.app/Contents/share/emacs/site-lisp/gnus")
-(load-file "~/elisp/ProofGeneral-4.2/generic/proof-site.el")
+;(add-to-list 'load-path "/usr/local/Cellar/emacs/24.5/Emacs.app/Contents/share/emacs/site-lisp/gnus")
+;(load-file "~/elisp/ProofGeneral-4.2/generic/proof-site.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -76,6 +76,7 @@ Return a list of installed packages or nil for every skipped package."
  '(org-confirm-babel-evaluate nil)
  '(org-export-backends (quote (ascii html icalendar latex md)))
  '(proof-assistants (quote (coq pghaskell)))
+ '(safe-local-variable-values (quote ((c-indent-level . 8) (c-indent-level . 4))))
  '(send-mail-function (quote smtpmail-send-it))
  '(tool-bar-mode nil)
  '(web-mode-enable-auto-quoting nil))
@@ -207,3 +208,12 @@ Return a list of installed packages or nil for every skipped package."
     (if (not (null buffer-file-name)) (flymake-mode))))
 
 (setq netrc-file "~/.authinfo.gpg")
+
+(defun jec/c-mode-hook ()
+  (interactive)
+  (setq c-default-style "linux"
+      tab-width 4
+      indent-tabs-mode nil
+      c-basic-offset 4))
+
+(add-hook 'c-mode-hook 'jec/c-mode-hook)
