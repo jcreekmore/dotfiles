@@ -21,3 +21,5 @@
 	smtpuser = jonathan.creekmore@gmail.com
 	smtpencryption = tls
 	smtpserverport = 587
+[branch]
+	autosetuprebase = always
