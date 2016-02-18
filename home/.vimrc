@@ -90,6 +90,11 @@ if has("autocmd")
   autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
   autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 
+  " C files should get our white space settings
+  autocmd BufNewFile,BufEnter,BufRead *.c set filetype=c
+  autocmd BufNewFile,BufEnter,BufRead *.h set filetype=c
+  autocmd FileType c set tabstop=4|set shiftwidth=4|set expandtab
+
   " Markdown not Modula-2...
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
