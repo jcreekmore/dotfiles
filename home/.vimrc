@@ -21,6 +21,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Refer to |:NeoBundle-examples|.
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'kergoth/vim-bitbake'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'chun-yang/vim-action-ag'
 
 call neobundle#end()
 
