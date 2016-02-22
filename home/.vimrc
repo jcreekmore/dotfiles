@@ -23,6 +23,7 @@ NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'kergoth/vim-bitbake'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'chun-yang/vim-action-ag'
+NeoBundle 'ledger/vim-ledger'
 
 call neobundle#end()
 
@@ -125,6 +126,12 @@ set bg=dark
 " 4 space tabs FTW
 set sw=4
 set ts=4
+
+set modeline
+set modelines=5
+
+let g:ledger_maxwidth=80
+let g:ledger_fold_blanks=1
 
 set exrc   " enables per-directory .vimrc files
 set secure " disables unsafe commands in local .vimrc files
