@@ -13,4 +13,4 @@ fi
 
 export ACK_PAGER_COLOR='less -R'
 
-export LEDGER_FILE="$HOME/Documents/ledger.dat"
+export LEDGER_FILE="$HOME/Documents/ledger/ledger.dat"
