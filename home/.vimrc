@@ -11,6 +11,8 @@ if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+let hostname = substitute(system("hostname -s"), '\n', '', '')
+
 " Turn on NeoBundle
 call neobundle#begin(expand('~/.vim/bundle/'))
 
@@ -23,7 +25,9 @@ NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'kergoth/vim-bitbake'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'chun-yang/vim-action-ag'
-NeoBundle 'ledger/vim-ledger'
+if hostname == "Nebula"
+	NeoBundle 'ledger/vim-ledger'
+endif
 
 call neobundle#end()
 
