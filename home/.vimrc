@@ -133,6 +133,10 @@ set modelines=5
 let g:ledger_maxwidth=80
 let g:ledger_fold_blanks=1
 
+" Use relative line numbering
+set number
+set relativenumber
+
 set exrc   " enables per-directory .vimrc files
 set secure " disables unsafe commands in local .vimrc files
 
