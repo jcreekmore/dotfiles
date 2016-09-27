@@ -25,6 +25,7 @@ NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'kergoth/vim-bitbake'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'chun-yang/vim-action-ag'
+NeoBundle 'kchmck/vim-coffee-script'
 if hostname == "Nebula"
 	NeoBundle 'ledger/vim-ledger'
 endif
@@ -105,11 +106,26 @@ if has("autocmd")
   " Markdown not Modula-2...
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+  " RiotJS tag files
+  autocmd BufNewFile,BufReadPost *.tag set filetype=html
+  autocmd FileType html set tabstop=4|set shiftwidth=4|set expandtab
+
+  " CoffeeScript files
+  autocmd FileType coffee set tabstop=4|set shiftwidth=4|set expandtab
+
   " Highlight trailing whitespace
   highlight ExtraWhitespace ctermbg=red guibg=red
   autocmd InsertEnter * match ExtraWhitespace /\s\+%#\@<!$/
   autocmd InsertLeave,BufWinEnter * match ExtraWhitespace /\s\+$/
 
+  " Cucumber (behave) files should use spaces
+  autocmd FileType cucumber set tabstop=4|set shiftwidth=4|set expandtab
+
+  " Json tab-twiddler
+  autocmd FileType json set tabstop=2|set shiftwidth=2|set expandtab
+
+  " Rust files
+  autocmd FileType rust setlocal makeprg=cargo|setlocal errorformat=%f:%l:%c:%m
 else
 
   set autoindent		" always set autoindenting on
@@ -143,5 +159,19 @@ set relativenumber
 
 set exrc   " enables per-directory .vimrc files
 set secure " disables unsafe commands in local .vimrc files
+
+set wildmode=longest,list,full
+set wildmenu
+
+if executable("ag")
+	set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
+	set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+let mapleader = ","
+nnoremap <leader>b :b <C-d>
+nnoremap <leader>g :grep<space>
+nnoremap <leader>m :make<space>
+nnoremap <leader>q :b#<CR>
 
 NeoBundleSource
