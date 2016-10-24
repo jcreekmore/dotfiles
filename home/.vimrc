@@ -124,6 +124,9 @@ if has("autocmd")
   " Json tab-twiddler
   autocmd FileType json set tabstop=2|set shiftwidth=2|set expandtab
 
+  " Javascript tab-twiddler
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+
   " Rust files
   autocmd FileType rust setlocal makeprg=cargo|setlocal errorformat=%f:%l:%c:%m
 else
