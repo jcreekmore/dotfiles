@@ -93,3 +93,53 @@ export EDITOR='vim'
 
 alias grv='git review'
 alias grs='git revshow'
+alias open='xdg-open'
+
+export LESS='-XFR'
+
+case "$TERM" in
+	"dumb")
+		PS1="> "
+		unset zle_bracketed_paste
+		;;
+esac
+
+if [[ -n "$TMUX" ]]; then
+	function refresh_ssh {
+		auth_sock=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
+		if [[ -n "${auth_sock}" ]]; then
+			export ${auth_sock}
+		fi
+
+		display=$(tmux show-environment | grep "^DISPLAY")
+		if [[ -n "${display}" ]]; then
+			export ${display}
+		fi
+	}
+else
+  function refresh_ssh { }
+fi
+
+function preexec {
+	refresh_ssh
+}
+
+function remove-kernel {
+	if [[ -z "$1" ]]; then
+		echo "Missing kernel version number"
+		return 1
+	fi
+
+	VERS=$1
+	sudo dpkg --purge linux-headers-${VERS} linux-headers-${VERS}-generic linux-image-${VERS}-generic linux-image-extra-${VERS}-generic
+}
+
+type exa >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+	alias ls=exa
+fi
+
+type rg >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+	alias ag=rg
+fi
