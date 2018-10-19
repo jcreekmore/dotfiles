@@ -52,7 +52,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew cabal git git-extras pip )
+plugins=(brew cabal git git-extras pip zsh-syntax-highlighting)
 
 # User configuration
 
@@ -93,7 +93,10 @@ export EDITOR='vim'
 
 alias grv='git review'
 alias grs='git revshow'
-alias open='xdg-open'
+
+if [[ $(uname -s) == "Linux" ]]; then
+	alias open='xdg-open'
+fi
 
 export LESS='-XFR'
 
