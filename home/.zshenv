@@ -31,3 +31,13 @@ if [[ $(uname -s) == "Darwin" ]]; then
 		eval "$(pyenv init -)"
 	fi
 fi
+
+if [[ $(uname -s) == "Linux" ]]; then
+	alias x="sudo xl"
+	alias xls="x list"
+	alias xi="x info"
+	alias xdm="x dmesg"
+
+	PATH="$HOME/src/crucible-tools/target/release:$PATH"
+	PATH="$HOME/src/tboot/crucible-tools:$PATH"
+fi
