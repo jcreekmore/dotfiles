@@ -23,3 +23,7 @@
 	smtpserverport = 587
 [branch]
 	autosetuprebase = always
+[log]
+	decorate = auto
+[color]
+	ui = auto
