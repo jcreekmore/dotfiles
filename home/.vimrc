@@ -1,36 +1,54 @@
-if !isdirectory(expand('~/.vim/bundle/neobundle.vim'))
-	call system('git clone https://github.com/Shougo/neobundle.vim.git
-		\ ~/.vim/bundle/neobundle.vim')
+if !isdirectory(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
+	call system('git clone https://github.com/Shougo/dein.vim.git
+		\ ~/.cache/dein/repos/github.com/Shougo/dein.vim')
 endif
 
 if has('vim_starting')
 	if &compatible
 		set nocompatible
 	endif
-
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+" Required:
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/jonathan/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  call dein#add('rust-lang/rust.vim')
+  call dein#add('kergoth/vim-bitbake')
+  call dein#add('ledger/vim-ledger')
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('Xuyuanp/nerdtree-git-plugin')
+  call dein#add('ctrlpvim/ctrlp.vim')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
 
 let hostname = substitute(system("hostname -s"), '\n', '', '')
-
-" Turn on NeoBundle
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'kergoth/vim-bitbake'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'chun-yang/vim-action-ag'
-NeoBundle 'kchmck/vim-coffee-script'
-if hostname == "Nebula"
-	NeoBundle 'ledger/vim-ledger'
-endif
-
-call neobundle#end()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -61,11 +79,11 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
+  set guifont=Hack-Regular:h14
 endif
+colorscheme solarized
 
 " Install missing bundles
-NeoBundleCheck
-
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
@@ -105,6 +123,7 @@ if has("autocmd")
 
   " Markdown not Modula-2...
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  autocmd FileType markdown set tabstop=4|set shiftwidth=4|set expandtab
 
   " RiotJS tag files
   autocmd BufNewFile,BufReadPost *.tag set filetype=html
@@ -129,6 +148,17 @@ if has("autocmd")
 
   " Rust files
   autocmd FileType rust setlocal makeprg=cargo|setlocal errorformat=%f:%l:%c:%m
+
+  " Haskell files
+  autocmd FileType haskell set tabstop=4|set shiftwidth=4|set expandtab
+
+  au BufRead,BufNewFile *.tag :set filetype=html
+  autocmd FileType html set tabstop=2|set shiftwidth=2|set expandtab
+  au BufRead,BufNewFile *.json :set filetype=javascript
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 else
 
   set autoindent		" always set autoindenting on
@@ -163,18 +193,10 @@ set relativenumber
 set exrc   " enables per-directory .vimrc files
 set secure " disables unsafe commands in local .vimrc files
 
-set wildmode=longest,list,full
-set wildmenu
-
-if executable("ag")
-	set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
-	set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-
 let mapleader = ","
-nnoremap <leader>b :b <C-d>
-nnoremap <leader>g :grep<space>
-nnoremap <leader>m :make<space>
-nnoremap <leader>q :b#<CR>
 
-NeoBundleSource
+nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
