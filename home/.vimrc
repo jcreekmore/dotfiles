@@ -160,8 +160,10 @@ if has("autocmd")
   au BufRead,BufNewFile *.json :set filetype=javascript
   autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
 
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd FileType sh set tabstop=4|set shiftwidth=4|set expandtab
+
+  " autocmd StdinReadPre * let s:std_in=1
+  " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 else
 
   set autoindent		" always set autoindenting on
