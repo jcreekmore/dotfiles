@@ -146,3 +146,7 @@ type rg >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
 	alias ag=rg
 fi
+
+if [[ -e ~/.zshrc.local ]]; then
+	source ~/.zshrc.local
+fi

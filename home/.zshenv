@@ -41,3 +41,10 @@ if [[ $(uname -s) == "Linux" ]]; then
 	PATH="$HOME/src/crucible-tools/target/release:$PATH"
 	PATH="$HOME/src/tboot/crucible-tools:$PATH"
 fi
+
+if [[ -e ~/.zshenv.local ]]; then
+	  source ~/.zshenv.local
+fi
+
+export BAT_THEME="Solarized (dark)"
+export BAT_STYLE="plain"
