@@ -52,7 +52,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew cabal git git-extras pip zsh-syntax-highlighting)
+plugins=(git git-extras zsh-syntax-highlighting)
 
 # User configuration
 
