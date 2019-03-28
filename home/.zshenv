@@ -38,8 +38,7 @@ if [[ $(uname -s) == "Linux" ]]; then
 	alias xi="x info"
 	alias xdm="x dmesg"
 
-	PATH="$HOME/src/crucible-tools/target/release:$PATH"
-	PATH="$HOME/src/tboot/crucible-tools:$PATH"
+	PATH="$HOME/hypervisors/scripts/:$PATH"
 fi
 
 if [[ -e ~/.zshenv.local ]]; then
