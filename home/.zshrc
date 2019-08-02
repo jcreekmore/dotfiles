@@ -142,9 +142,9 @@ if [[ $? -eq 0 ]]; then
 	alias ls=exa
 fi
 
-type rg >/dev/null 2>&1
+type bat >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
-	alias ag=rg
+	alias cat=bat
 fi
 
 if [[ -e ~/.zshrc.local ]]; then
@@ -152,3 +152,9 @@ if [[ -e ~/.zshrc.local ]]; then
 fi
 
 alias vi=vim
+
+if [[ $(uname -s) == "Darwin" ]]; then
+	OPENSSL_PREFIX=$(brew --prefix openssl)
+	export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
+	export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
+fi

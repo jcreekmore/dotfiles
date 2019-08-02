@@ -26,11 +26,11 @@ if dein#load_state('~/.cache/dein')
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   call dein#add('rust-lang/rust.vim')
-  call dein#add('kergoth/vim-bitbake')
+"  call dein#add('kergoth/vim-bitbake')
   call dein#add('ledger/vim-ledger')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
-  call dein#add('ctrlpvim/ctrlp.vim')
+"  call dein#add('scrooloose/nerdtree')
+"  call dein#add('Xuyuanp/nerdtree-git-plugin')
+"  call dein#add('ctrlpvim/ctrlp.vim')
 
   " Required:
   call dein#end()
@@ -42,9 +42,9 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
+"if dein#check_install()
+"  call dein#install()
+"endif
 
 "End dein Scripts-------------------------
 
@@ -70,9 +70,9 @@ map Q gq
 inoremap <C-U> <C-G>u<C-U>
 
 " In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
+" if has('mouse')
+"  set mouse=a
+" endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -82,6 +82,8 @@ if &t_Co > 2 || has("gui_running")
   set guifont=Hack-Regular:h14
 endif
 colorscheme solarized
+
+set colorcolumn=+0
 
 " Install missing bundles
 " Only do this part when compiled with support for autocommands.
@@ -117,7 +119,7 @@ if has("autocmd")
 
   " Python files should get PEP8 white space settings
   autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
-  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=80
 
   " C files should get our white space settings
   autocmd BufNewFile,BufEnter,BufRead *.c set filetype=c
@@ -128,12 +130,9 @@ if has("autocmd")
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
   autocmd FileType markdown set tabstop=4|set shiftwidth=4|set expandtab
 
-  " RiotJS tag files
-  autocmd BufNewFile,BufReadPost *.tag set filetype=html
+  " Html tag files
   autocmd FileType html set tabstop=4|set shiftwidth=4|set expandtab
-
-  " CoffeeScript files
-  autocmd FileType coffee set tabstop=4|set shiftwidth=4|set expandtab
+  autocmd FileType htmldjango set tabstop=4|set shiftwidth=4|set expandtab
 
   " Highlight trailing whitespace
   highlight ExtraWhitespace ctermbg=red guibg=red
@@ -200,8 +199,11 @@ set secure " disables unsafe commands in local .vimrc files
 
 let mapleader = ","
 
-nnoremap <Leader>f :NERDTreeToggle<CR>
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+"nnoremap <Leader>f :NERDTreeToggle<CR>
+"nnoremap <silent> <Leader>v :NERDTreeFind<CR>
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
+
+set clipboard=unnamed
+set mouse=

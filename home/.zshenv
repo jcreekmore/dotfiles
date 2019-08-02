@@ -16,13 +16,17 @@ if [[ $(uname -s) == "Darwin" ]]; then
 	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl/lib/pkgconfig"
+	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/zlib/lib/pkgconfig"
+	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/sqlite/lib/pkgconfig"
 	export LEDGER_FILE="$HOME/Documents/Financial/master.ledger"
 
-	export OPENSSL_INCLUDE_DIR=`brew --prefix openssl`/include
-	export OPENSSL_LIB_DIR=`brew --prefix openssl`/lib
+	export LDFLAGS="-L/usr/local/opt/openssl/lib"
+	export LDFLAGS="$LDFLAGS -L/usr/local/opt/zlib/lib"
+	export LDFLAGS="$LDFLAGS -L/usr/local/opt/sqlite/lib"
 
-	export LDFLAGS=-L/usr/local/opt/openssl/lib
-	export CPPFLAGS=-I/usr/local/opt/openssl/include
+	export CPPFLAGS="-I/usr/local/opt/openssl/include"
+	export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/zlib/include"
+	export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/sqlite/include"
 
 	export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
 	export PYENV_ROOT="$HOME/.pyenv"
