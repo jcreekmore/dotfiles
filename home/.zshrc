@@ -52,7 +52,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras zsh-syntax-highlighting)
+plugins=(git git-extras zsh-syntax-highlighting fzf)
 
 # User configuration
 
@@ -157,4 +157,11 @@ if [[ $(uname -s) == "Darwin" ]]; then
 	OPENSSL_PREFIX=$(brew --prefix openssl)
 	export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
 	export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
+fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+type starship >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+	eval $(starship init zsh)
 fi
