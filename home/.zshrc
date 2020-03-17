@@ -2,9 +2,11 @@
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
+fpath=(~/.config/taskquor $fpath)
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_CUSTOM_PLUGINS=$ZSH/custom/plugins
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -33,7 +35,7 @@ DISABLE_AUTO_TITLE="true"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -52,7 +54,16 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras zsh-syntax-highlighting fzf)
+plugins=(git git-extras fzf)
+
+if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
+	zmodload zsh/zpty
+	plugins+=(zsh-autosuggestions)
+fi
+
+if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-syntax-highlighting ]]; then
+	plugins+=(zsh-syntax-highlighting)
+fi
 
 # User configuration
 
