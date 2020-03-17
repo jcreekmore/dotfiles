@@ -10,6 +10,7 @@
 	sreview = log origin/master..HEAD --reverse -p
 [core]
 	excludesfile = /Users/jonathan/.gitignore_global
+	pager = delta --dark --theme='Solarized (dark)'
 [credential]
 	helper = osxkeychain
 	helper = cache --timeout=3600
