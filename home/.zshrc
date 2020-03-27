@@ -58,7 +58,13 @@ plugins=(git git-extras fzf)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
+	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+	ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=white'
 	plugins+=(zsh-autosuggestions)
+fi
+
+if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-history-substring-search ]]; then
+	plugins+=(zsh-history-substring-search)
 fi
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-syntax-highlighting ]]; then
@@ -175,4 +181,13 @@ fi
 type starship >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
 	eval $(starship init zsh)
+fi
+
+# Enable keychain
+type -p keychain 2>&1 > /dev/null
+if [ $? -eq 0 ]; then
+    # find keys that start with id but don't end in .pub
+    local keyfiles=$(find $HOME/.ssh/ -name 'id*' -a ! -name '*.pub')
+    eval $(keychain --eval --agents gpg,ssh --inherit any-once "${keyfiles}")
+    unset keyfiles
 fi

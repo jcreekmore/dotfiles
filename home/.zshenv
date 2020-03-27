@@ -70,5 +70,3 @@ vfif() {
 		vim -o "$filename"
 	fi
 }
-
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
