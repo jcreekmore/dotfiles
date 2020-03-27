@@ -205,5 +205,8 @@ let mapleader = ","
 "let g:ctrlp_map = '<c-p>'
 "let g:ctrlp_cmd = 'CtrlP'
 
-set clipboard=unnamed
+"set clipboard=unnamed
 set mouse=
+
+set wildmode=longest,list,full
+set wildmenu
