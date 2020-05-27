@@ -164,6 +164,13 @@ if [[ $? -eq 0 ]]; then
 	alias cat=bat
 fi
 
+type rg >/dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+	function rg {
+		grep -R "$@" *
+	}
+fi
+
 if [[ -e ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
@@ -191,3 +198,8 @@ if [ $? -eq 0 ]; then
     eval $(keychain --eval --agents gpg,ssh --inherit any-once "${keyfiles}")
     unset keyfiles
 fi
+
+function hist {
+	num=${1:-20}
+	history | tail -n $num
+}
