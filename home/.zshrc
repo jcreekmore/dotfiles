@@ -175,7 +175,8 @@ if [[ -e ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
 
-alias vi=vim
+alias vi=nvim
+alias vim=nvim
 
 if [[ $(uname -s) == "Darwin" ]]; then
 	OPENSSL_PREFIX=$(brew --prefix openssl)
@@ -184,6 +185,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[[ $TERM == "dumb" ]] && unsetopt zle && PS0='$ ' && return
 
 type starship >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
@@ -199,7 +202,3 @@ if [ $? -eq 0 ]; then
     unset keyfiles
 fi
 
-function hist {
-	num=${1:-20}
-	history | tail -n $num
-}

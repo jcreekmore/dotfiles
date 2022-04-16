@@ -18,7 +18,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl/lib/pkgconfig"
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/zlib/lib/pkgconfig"
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/sqlite/lib/pkgconfig"
-	export LEDGER_FILE="$HOME/Documents/Financial/master.ledger"
+	#export LEDGER_FILE="$HOME/Documents/ledger/journal.ledger"
 
 	export LDFLAGS="-L/usr/local/opt/openssl/lib"
 	export LDFLAGS="$LDFLAGS -L/usr/local/opt/zlib/lib"
@@ -70,3 +70,5 @@ vfif() {
 		vim -o "$filename"
 	fi
 }
+
+alias gsledger="hledger -f $HOME/Documents/Girl\ Scouts/financial-report.ledger"

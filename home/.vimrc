@@ -25,7 +25,7 @@ if dein#load_state('~/.cache/dein')
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
-  call dein#add('rust-lang/rust.vim')
+"  call dein#add('rust-lang/rust.vim')
 "  call dein#add('kergoth/vim-bitbake')
   call dein#add('ledger/vim-ledger')
 "  call dein#add('scrooloose/nerdtree')
@@ -161,6 +161,8 @@ if has("autocmd")
 
   autocmd FileType sh set tabstop=4|set shiftwidth=4|set expandtab
 
+  autocmd FileType ledger set tabstop=2|set shiftwidth=2|set expandtab
+
   " autocmd StdinReadPre * let s:std_in=1
   " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 else
@@ -189,6 +191,7 @@ set modelines=5
 
 let g:ledger_maxwidth=80
 let g:ledger_fold_blanks=1
+let g:ledger_bin="hledger"
 
 " Use relative line numbering
 set number
