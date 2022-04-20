@@ -34,6 +34,8 @@ call plug#begin("~/.vim/plugged")
  Plug 'mhinz/vim-startify'
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+ Plug 'nvim-treesitter/nvim-treesitter'
+
  " Collection of common configurations for the Nvim LSP client
 Plug 'neovim/nvim-lspconfig'
 
@@ -66,6 +68,11 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " Color scheme used in the GIFs!
 Plug 'arcticicestudio/nord-vim'
+ Plug 'williamboman/nvim-lsp-installer'
+ Plug 'ekalinin/Dockerfile.vim'
+ " Plug 'WhoIsSethDaniel/goldsmith.nvim'
+ Plug 'vim-python/python-syntax'
+ Plug 'hashivim/vim-terraform'
 call plug#end()
 
 " color schemes
@@ -74,11 +81,16 @@ if (has("termguicolors"))
 endif
 syntax enable
 " colorscheme evening
-colorscheme dracula
+if has("gui_running")
+  colorscheme dracula
+endif
 
 " open new split panes to right and below
 set splitright
 set splitbelow
+set relativenumber
+
+let g:python_highlight_all = 1
 
 " move line or visually selected block - alt+j/k
 inoremap <A-j> <Esc>:m .+1<CR>==gi
@@ -195,9 +207,25 @@ if has("autocmd")
     augroup vimrcEx
     au!
 
+  " Python files should get PEP8 white space settings
+  autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
+  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=88
+
+
     autocmd FileType text setlocal textwidth=78
     autocmd FileType markdown setlocal textwidth=78
     autocmd FileType gitcommit setlocal textwidth=72
+
+  " Json tab-twiddler
+  autocmd FileType json set tabstop=2|set shiftwidth=2|set expandtab
+
+  " Javascript tab-twiddler
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+  autocmd FileType javascript.jsx set tabstop=2|set shiftwidth=2|set expandtab
+
+  " Yaml 
+  autocmd FileType yaml set tabstop=2|set shiftwidth=2|set expandtab
+
 
     augroup END
 else
