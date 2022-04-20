@@ -1,7 +1,9 @@
-export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 PATH="$HOME/.bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
+PATH="${PATH}:${HOME}/.krew/bin"
+PATH="$HOME/.rbenv/bin:$PATH"
 
 export MANPATH="/usr/local/man:$MANPATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -15,16 +17,16 @@ export ACK_PAGER_COLOR='less -R'
 if [[ $(uname -s) == "Darwin" ]]; then
 	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
-	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl/lib/pkgconfig"
+	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl@3/lib/pkgconfig"
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/zlib/lib/pkgconfig"
 	export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/sqlite/lib/pkgconfig"
 	#export LEDGER_FILE="$HOME/Documents/ledger/journal.ledger"
 
-	export LDFLAGS="-L/usr/local/opt/openssl/lib"
+	export LDFLAGS="-L/usr/local/opt/openssl@3/lib"
 	export LDFLAGS="$LDFLAGS -L/usr/local/opt/zlib/lib"
 	export LDFLAGS="$LDFLAGS -L/usr/local/opt/sqlite/lib"
 
-	export CPPFLAGS="-I/usr/local/opt/openssl/include"
+	export CPPFLAGS="-I/usr/local/opt/openssl@3/include"
 	export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/zlib/include"
 	export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/sqlite/include"
 
@@ -32,6 +34,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
 	export PYENV_ROOT="$HOME/.pyenv"
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	if command -v pyenv 1>/dev/null 2>&1; then
+		export PYENV_ROOT="$HOME/.pyenv"
+		export PATH="$PYENV_ROOT/shims:$PATH"
 		eval "$(pyenv init -)"
 	fi
 fi
@@ -72,3 +76,5 @@ vfif() {
 }
 
 alias gsledger="hledger -f $HOME/Documents/Girl\ Scouts/financial-report.ledger"
+alias vi="nvim"
+alias vim="nvim"

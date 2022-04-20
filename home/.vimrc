@@ -16,6 +16,7 @@ endif
 
 " Required:
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/usr/local/opt/fzf
 
 " Required:
 if dein#load_state('~/.cache/dein')
@@ -25,12 +26,13 @@ if dein#load_state('~/.cache/dein')
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
-"  call dein#add('rust-lang/rust.vim')
-"  call dein#add('kergoth/vim-bitbake')
+  " call dein#add('vim-syntastic/syntastic')
+  " call dein#add('preservim/nerdtree')
+  call dein#add('rust-lang/rust.vim')
   call dein#add('ledger/vim-ledger')
-"  call dein#add('scrooloose/nerdtree')
-"  call dein#add('Xuyuanp/nerdtree-git-plugin')
-"  call dein#add('ctrlpvim/ctrlp.vim')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('mxw/vim-jsx')
+  " call dein#add('ctrlpvim/ctrlp.vim')
 
   " Required:
   call dein#end()
@@ -42,9 +44,9 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
+if dein#check_install()
+  call dein#install()
+endif
 
 "End dein Scripts-------------------------
 
@@ -119,7 +121,7 @@ if has("autocmd")
 
   " Python files should get PEP8 white space settings
   autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
-  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=80
+  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=79
 
   " C files should get our white space settings
   autocmd BufNewFile,BufEnter,BufRead *.c set filetype=c
@@ -128,7 +130,7 @@ if has("autocmd")
 
   " Markdown not Modula-2...
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-  autocmd FileType markdown set tabstop=4|set shiftwidth=4|set expandtab
+  autocmd FileType markdown set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=79
 
   " Html tag files
   autocmd FileType html set tabstop=4|set shiftwidth=4|set expandtab
@@ -158,6 +160,7 @@ if has("autocmd")
   autocmd FileType html set tabstop=2|set shiftwidth=2|set expandtab
   au BufRead,BufNewFile *.json :set filetype=javascript
   autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+  autocmd FileType javascript.jsx set tabstop=2|set shiftwidth=2|set expandtab
 
   autocmd FileType sh set tabstop=4|set shiftwidth=4|set expandtab
 
@@ -202,14 +205,27 @@ set secure " disables unsafe commands in local .vimrc files
 
 let mapleader = ","
 
-"nnoremap <Leader>f :NERDTreeToggle<CR>
-"nnoremap <silent> <Leader>v :NERDTreeFind<CR>
-
-"let g:ctrlp_map = '<c-p>'
-"let g:ctrlp_cmd = 'CtrlP'
+nnoremap <C-o> :call fzf#run(fzf#wrap({'source': 'git ls-files'}))<CR>
+nnoremap <C-p> :FZF<CR>
 
 "set clipboard=unnamed
 set mouse=
 
 set wildmode=longest,list,full
 set wildmenu
+
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+"let g:syntastic_python_checkers = ['flake8']

@@ -1,4 +1,3 @@
-
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
@@ -87,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -178,11 +177,11 @@ fi
 alias vi=nvim
 alias vim=nvim
 
-if [[ $(uname -s) == "Darwin" ]]; then
-	OPENSSL_PREFIX=$(brew --prefix openssl)
-	export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
-	export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
-fi
+#if [[ $(uname -s) == "Darwin" ]]; then
+	#OPENSSL_PREFIX=$(brew --prefix openssl)
+	#export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
+	#export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
+#fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -198,7 +197,12 @@ type -p keychain 2>&1 > /dev/null
 if [ $? -eq 0 ]; then
     # find keys that start with id but don't end in .pub
     local keyfiles=$(find $HOME/.ssh/ -name 'id*' -a ! -name '*.pub')
-    eval $(keychain --eval --agents gpg,ssh --inherit any-once "${keyfiles}")
+    eval $(keychain --eval --agents gpg,ssh --inherit any-once "${keyfiles}" -Q -q)
     unset keyfiles
 fi
 
+export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
