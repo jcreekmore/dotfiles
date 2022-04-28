@@ -23,6 +23,8 @@ set ttyfast                 " Speed up scrolling in Vim
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 
+let g:python3_host_prog="$PYENV_GLOBAL_PYTHON3"
+
 call plug#begin("~/.vim/plugged")
  " Plugin Section
  Plug 'dracula/vim'
@@ -73,6 +75,8 @@ Plug 'arcticicestudio/nord-vim'
  " Plug 'WhoIsSethDaniel/goldsmith.nvim'
  Plug 'vim-python/python-syntax'
  Plug 'hashivim/vim-terraform'
+
+ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " color schemes
@@ -231,3 +235,8 @@ if has("autocmd")
 else
     set autoindent
 endif
+
+let mapleader = ","
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>

@@ -78,3 +78,5 @@ vfif() {
 alias gsledger="hledger -f $HOME/Documents/Girl\ Scouts/financial-report.ledger"
 alias vi="nvim"
 alias vim="nvim"
+
+export PYENV_GLOBAL_PYTHON3="$(pyenv prefix $(pyenv global))/bin/python3"
