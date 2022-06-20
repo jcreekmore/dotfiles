@@ -37,6 +37,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 		export PYENV_ROOT="$HOME/.pyenv"
 		export PATH="$PYENV_ROOT/shims:$PATH"
 		eval "$(pyenv init -)"
+		export PYENV_GLOBAL_PYTHON3="$(pyenv prefix $(pyenv global))/bin/python3"
 	fi
 fi
 
@@ -78,5 +79,3 @@ vfif() {
 alias gsledger="hledger -f $HOME/Documents/Girl\ Scouts/financial-report.ledger"
 alias vi="nvim"
 alias vim="nvim"
-
-export PYENV_GLOBAL_PYTHON3="$(pyenv prefix $(pyenv global))/bin/python3"
