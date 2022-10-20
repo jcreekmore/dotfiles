@@ -4,11 +4,6 @@
 	name = Jonathan Creekmore
 	email = jonathan@thecreekmores.org
 
-[alias]
-	review = !sh -c 'repo=$1 && repo=${repo:=origin/master} && git --no-pager log --reverse --oneline ${repo}.. | nl' -v
-	revshow = !sh -c 'repo=$1 && repo=${repo:=origin/master} && git --no-pager log --reverse --oneline ${repo}.. | head -n ${0} | tail -n 1 | cut -f1 -d \" \" | xargs git show'
-	sreview = log origin/master..HEAD --reverse -p
-    prc = !sh -c 'git fetch origin pull/${1}/head:pr/${1} && git checkout pr/${1}' -
 [core]
 	excludesfile = /Users/jonathan/.gitignore_global
 

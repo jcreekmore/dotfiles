@@ -107,9 +107,6 @@ export EDITOR='nvim'
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-alias grv='git review'
-alias grs='git revshow'
-
 if [[ $(uname -s) == "Linux" ]]; then
 	alias open='xdg-open'
 fi
@@ -173,6 +170,24 @@ fi
 if [[ -e ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
+
+
+git_review () {
+    local repo
+    repo=${1:$(git_main_branch)}
+
+    command git --no-pager log --reverse --oneline ${repo:=$(git_main_branch)}.. | nl
+}
+
+git_revshow () {
+    commit=$1
+    repo=${2:=$(git_main_branch)}
+
+    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show
+}
+
+alias grv='git_review'
+alias grs='git_revshow'
 
 alias vi=nvim
 alias vim=nvim
