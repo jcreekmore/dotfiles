@@ -1,4 +1,5 @@
 set nocompatible            " disable compatibility to old-time vi
+set autoread                " reload files when you change them externally
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
 set mouse=v                 " middle-click paste with 
@@ -28,48 +29,49 @@ let g:python3_host_prog="$PYENV_GLOBAL_PYTHON3"
 call plug#begin("~/.vim/plugged")
  " Plugin Section
  Plug 'dracula/vim'
- Plug 'ryanoasis/vim-devicons'
  Plug 'SirVer/ultisnips'
  Plug 'honza/vim-snippets'
  Plug 'scrooloose/nerdtree'
  Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ Plug 'NoahTheDuke/vim-just'
+ Plug 'ctrlpvim/ctrlp.vim'
 
  Plug 'nvim-treesitter/nvim-treesitter'
 
  " Collection of common configurations for the Nvim LSP client
-Plug 'neovim/nvim-lspconfig'
+ Plug 'neovim/nvim-lspconfig'
 
-" Completion framework
-Plug 'hrsh7th/nvim-cmp'
+ " Completion framework
+ Plug 'hrsh7th/nvim-cmp'
 
-" LSP completion source for nvim-cmp
-Plug 'hrsh7th/cmp-nvim-lsp'
+ " LSP completion source for nvim-cmp
+ Plug 'hrsh7th/cmp-nvim-lsp'
 
-" Snippet completion source for nvim-cmp
-Plug 'hrsh7th/cmp-vsnip'
+ " Snippet completion source for nvim-cmp
+ Plug 'hrsh7th/cmp-vsnip'
 
-" Other usefull completion sources
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-buffer'
+ " Other usefull completion sources
+ Plug 'hrsh7th/cmp-path'
+ Plug 'hrsh7th/cmp-buffer'
 
-" See hrsh7th's other plugins for more completion sources!
+ " See hrsh7th's other plugins for more completion sources!
 
-" To enable more of the features of rust-analyzer, such as inlay hints and more!
-Plug 'simrat39/rust-tools.nvim'
+ " To enable more of the features of rust-analyzer, such as inlay hints and more!
+ Plug 'simrat39/rust-tools.nvim'
 
-" Snippet engine
-Plug 'hrsh7th/vim-vsnip'
+ " Snippet engine
+ Plug 'hrsh7th/vim-vsnip'
 
-" Fuzzy finder
-" Optional
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+ " Fuzzy finder
+ " Optional
+ Plug 'nvim-lua/popup.nvim'
+ Plug 'nvim-lua/plenary.nvim'
+ Plug 'nvim-telescope/telescope.nvim'
 
-" Color scheme used in the GIFs!
-Plug 'arcticicestudio/nord-vim'
+ " Color scheme used in the GIFs!
+ Plug 'arcticicestudio/nord-vim'
  Plug 'williamboman/nvim-lsp-installer'
  Plug 'ekalinin/Dockerfile.vim'
  " Plug 'WhoIsSethDaniel/goldsmith.nvim'
@@ -77,6 +79,9 @@ Plug 'arcticicestudio/nord-vim'
  Plug 'hashivim/vim-terraform'
 
  Plug 'ryanoasis/vim-devicons'
+ Plug 'junegunn/fzf'
+ Plug 'junegunn/fzf.vim'
+ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " color schemes
@@ -240,3 +245,8 @@ let mapleader = ","
 
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>f :GFiles<CR>
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
