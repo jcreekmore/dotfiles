@@ -255,4 +255,5 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 try
     nmap <silent> [c :call CocAction('diagnosticNext')<cr>
     nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
+    nmap <silent> gd :call CocAction('jumpDefinition')<cr>
 endtry
