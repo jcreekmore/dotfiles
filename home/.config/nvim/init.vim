@@ -89,9 +89,10 @@ if (has("termguicolors"))
  set termguicolors
 endif
 syntax enable
-" colorscheme evening
 if has("gui_running")
   colorscheme dracula
+else
+  colorscheme evening
 endif
 
 " open new split panes to right and below
@@ -250,3 +251,8 @@ nnoremap <leader>f :GFiles<CR>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+try
+    nmap <silent> [c :call CocAction('diagnosticNext')<cr>
+    nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
+endtry
