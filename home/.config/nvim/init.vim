@@ -18,7 +18,7 @@ syntax on                   " syntax highlighting
 set mouse=a                 " enable mouse click
 set clipboard=unnamedplus   " using system clipboard
 filetype plugin on
-set cursorline              " highlight current cursorline
+"set cursorline              " highlight current cursorline
 set ttyfast                 " Speed up scrolling in Vim
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
@@ -257,3 +257,5 @@ try
     nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
     nmap <silent> gd :call CocAction('jumpDefinition')<cr>
 endtry
+
+let g:vim_markdown_fenced_languages = ['rust=rust', 'json=json', 'diff=diff']
