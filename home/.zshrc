@@ -53,7 +53,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras fzf)
+plugins=(git git-extras fzf ripgrep httpie fd)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
