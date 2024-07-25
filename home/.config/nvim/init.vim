@@ -30,17 +30,18 @@ let g:python3_host_prog="$PYENV_GLOBAL_PYTHON3"
 
 call plug#begin("~/.vim/plugged")
  " Plugin Section
+" Plug 'williamboman/mason.nvim'    
+" Plug 'williamboman/mason-lspconfig.nvim'
  Plug 'dracula/vim'
- Plug 'SirVer/ultisnips'
+ " Plug 'SirVer/ultisnips'
  Plug 'honza/vim-snippets'
- Plug 'scrooloose/nerdtree'
- Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
  Plug 'NoahTheDuke/vim-just'
- Plug 'ctrlpvim/ctrlp.vim'
 
  Plug 'nvim-treesitter/nvim-treesitter'
+
+ Plug 'LhKipp/nvim-nu', {'do': ':TSInstall nu'}
 
  " Collection of common configurations for the Nvim LSP client
  Plug 'neovim/nvim-lspconfig'
@@ -84,6 +85,8 @@ call plug#begin("~/.vim/plugged")
  Plug 'junegunn/fzf'
  Plug 'junegunn/fzf.vim'
  Plug 'tpope/vim-fugitive'
+
+ Plug 'pmizio/typescript-tools.nvim'
 call plug#end()
 
 " color schemes
@@ -92,7 +95,7 @@ call plug#end()
 "endif
 "syntax enable
 "if has("gui_running")
-  "colorscheme dracula
+colorscheme dracula
 "else
   "colorscheme evening
 "endif
@@ -137,6 +140,8 @@ set completeopt=menuone,noinsert,noselect
 " Avoid showing extra messages when using completion
 set shortmess+=c
 
+let mapleader = ","
+
 " Configure LSP through rust-tools.nvim plugin.
 " rust-tools will configure and enable certain LSP features for us.
 " See https://github.com/simrat39/rust-tools.nvim#configuration
@@ -146,7 +151,6 @@ local nvim_lsp = require'lspconfig'
 local opts = {
     tools = { -- rust-tools options
         autoSetHints = true,
-        hover_with_actions = true,
         inlay_hints = {
             show_parameter_hints = false,
             parameter_hints_prefix = "",
@@ -160,6 +164,10 @@ local opts = {
     server = {
         -- on_attach is a callback called when the language server attachs to the buffer
         -- on_attach = on_attach,
+        --on_attach = function(_, bufnr)
+          --vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+          --vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+        --end,
         settings = {
             -- to enable rust-analyzer settings visit:
             -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
@@ -168,17 +176,70 @@ local opts = {
                 checkOnSave = {
                     command = "clippy"
                 },
+                cargo = {
+                    buildScripts = {
+                        enable = false
+                    }
+                }
             }
         }
     },
 }
 
 require('rust-tools').setup(opts)
-EOF
 
-" Setup Completion
-" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-lua <<EOF
+local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.rs",
+  callback = function()
+    vim.lsp.buf.format({ timeout_ms = 200 })
+  end,
+  group = format_sync_grp,
+})
+
+require('telescope').setup{
+  defaults = {
+    -- Default configuration for telescope goes here:
+    -- config_key = value,
+    mappings = {
+      i = {
+        -- map actions.which_key to <C-h> (default: <C-/>)
+        -- actions.which_key shows the mappings for your picker,
+        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+        ["<C-h>"] = "which_key"
+      }
+    }
+  },
+  pickers = {
+    -- Default configuration for builtin pickers goes here:
+    -- picker_name = {
+    --   picker_config_key = value,
+    --   ...
+    -- }
+    -- Now the picker_config_key will be applied every time you call this
+    -- builtin picker
+  },
+  extensions = {
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
+  }
+}
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<Leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<Leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<Leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<Leader>fr', builtin.lsp_references, {})
+vim.keymap.set('n', '<Leader>fi', builtin.lsp_implementations, {})
+vim.keymap.set('n', '<Leader>fd', builtin.lsp_definitions, {})
+vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+
+-- Setup Completion
+-- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require'cmp'
 cmp.setup({
   -- Enable LSP snippets
@@ -211,6 +272,9 @@ cmp.setup({
     { name = 'buffer' },
   },
 })
+
+require("typescript-tools").setup {}
+
 EOF
 
 if has("autocmd")
@@ -219,40 +283,29 @@ if has("autocmd")
     augroup vimrcEx
     au!
 
-  " Python files should get PEP8 white space settings
-  autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
-  autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=88
+    " Python files should get PEP8 white space settings
+    autocmd BufNewFile,BufEnter,BufRead *.py set filetype=python
+    autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|setlocal textwidth=88
 
 
     autocmd FileType text setlocal textwidth=78
     autocmd FileType markdown setlocal textwidth=78
     autocmd FileType gitcommit setlocal textwidth=72
 
-  " Json tab-twiddler
-  autocmd FileType json set tabstop=2|set shiftwidth=2|set expandtab
+    " Json tab-twiddler
+    autocmd FileType json set tabstop=2|set shiftwidth=2|set expandtab
 
-  " Javascript tab-twiddler
-  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
-  autocmd FileType javascript.jsx set tabstop=2|set shiftwidth=2|set expandtab
+    " Javascript tab-twiddler
+    autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab
+    autocmd FileType javascript.jsx set tabstop=2|set shiftwidth=2|set expandtab
 
-  " Yaml 
-  autocmd FileType yaml set tabstop=2|set shiftwidth=2|set expandtab
-
-
+    " Yaml 
+    autocmd FileType yaml set tabstop=2|set shiftwidth=2|set expandtab
     augroup END
 else
     set autoindent
 endif
 
-let mapleader = ","
-
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <leader>t :NERDTreeToggle<CR>
-nnoremap <leader>f :GFiles<CR>
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 try
     nmap <silent> [c :call CocAction('diagnosticNext')<cr>
@@ -261,3 +314,51 @@ try
 endtry
 
 let g:vim_markdown_fenced_languages = ['rust=rust', 'json=json', 'diff=diff']
+
+lua <<EOF
+require'nu'.setup{
+use_lsp_features = false
+}
+
+-- Array of file names indicating root directory. Modify to your liking.
+local root_names = { '.git', 'Makefile' }
+
+-- Cache to use for speed up (at cost of possibly outdated results)
+local root_cache = {}
+
+local set_root = function()
+  -- Get directory path to start search from
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == '' then return end
+  path = vim.fs.dirname(path)
+
+  -- Try cache and resort to searching upward for root directory
+  local root = root_cache[path]
+  if root == nil then
+    local root_file = vim.fs.find(root_names, { path = path, upward = true })[1]
+    if root_file == nil then return end
+    root = vim.fs.dirname(root_file)
+    root_cache[path] = root
+  end
+
+  -- Set current directory
+  vim.fn.chdir(root)
+end
+
+local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
+vim.api.nvim_create_autocmd('BufEnter', { group = root_augroup, callback = set_root })
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+EOF
+
+hi! link @lsp.type.keyword.rust rustKeyword
