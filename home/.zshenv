@@ -34,23 +34,15 @@ if [[ $(uname -s) == "Darwin" ]]; then
 	export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/libffi/include"
 
 	export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
-	export PYENV_ROOT="$HOME/.pyenv"
-	export PATH="$PYENV_ROOT/bin:$PATH"
-	if command -v pyenv 1>/dev/null 2>&1; then
-		export PYENV_ROOT="$HOME/.pyenv"
-		export PATH="$PYENV_ROOT/shims:$PATH"
-		eval "$(pyenv init -)"
-		export PYENV_GLOBAL_PYTHON3="$(pyenv prefix $(pyenv global))/bin/python3"
-	fi
 fi
 
-if [[ $(uname -s) == "Linux" ]]; then
-	alias x="sudo xl"
-	alias xls="x list"
-	alias xi="x info"
-	alias xdm="x dmesg"
-
-	PATH="$HOME/hypervisors/scripts/:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/shims:$PATH"
+    eval "$(pyenv init -)"
+    export PYENV_GLOBAL_PYTHON3="$(pyenv prefix $(pyenv global))/bin/python3"
 fi
 
 if [[ -e ~/.zshenv.local ]]; then
@@ -59,11 +51,6 @@ fi
 
 export BAT_THEME="Solarized (dark)"
 export BAT_STYLE="plain"
-
-alias grbia="grbi --autosquash"
-alias gcfix="gc --fixup"
-alias gcs='git checkout staging'
-alias gcS='git commit -S'
 
 export PROJECT_PATHS=(~/src ~/work)
 

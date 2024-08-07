@@ -1,7 +1,7 @@
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
-fpath=(~/.config/taskquor $fpath)
+fpath=($HOME/.config/zsh $fpath)
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -53,7 +53,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras fzf ripgrep httpie fd)
+plugins=(git git-extras fzf httpie starship)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
@@ -140,16 +140,6 @@ function preexec {
 	refresh_ssh
 }
 
-function remove-kernel {
-	if [[ -z "$1" ]]; then
-		echo "Missing kernel version number"
-		return 1
-	fi
-
-	VERS=$1
-	sudo dpkg --purge linux-headers-${VERS} linux-headers-${VERS}-generic linux-image-${VERS}-generic linux-image-extra-${VERS}-generic
-}
-
 type exa >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
 	alias ls=exa
@@ -171,26 +161,97 @@ if [[ -e ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
 
-
-git_review () {
+git-review () {
     local repo
-    repo=${1:$(git_main_branch)}
+    repo=${1:=$(git_develop_branch)}
 
-    command git --no-pager log --reverse --oneline ${repo:=$(git_main_branch)}.. | nl
+    git branch | sed 's/^[* ] //' | grep -q -E "^${repo}$"
+
+    if [[ $? -ne 0 ]]; then
+        repo=$(git_main_branch)
+    fi
+
+    command git --no-pager log --reverse --oneline ${repo}.. | nl
 }
 
-git_revshow () {
+git-revshow () {
     commit=$1
-    repo=${2:=$(git_main_branch)}
+    repo=${2:=$(git_develop_branch)}
+
+    git branch | sed 's/^[* ] //' | grep -q -E "^${repo}$"
+
+    if [[ $? -ne 0 ]]; then
+        repo=$(git_main_branch)
+    fi
 
     git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show
 }
 
-alias grv='git_review'
-alias grs='git_revshow'
+git-revshow-stat () {
+    commit=$1
+    repo=${2:=$(git_develop_branch)}
 
-alias vi=nvim
-alias vim=nvim
+    git branch | sed 's/^[* ] //' | grep -q -E "^${repo}$"
+
+    if [[ $? -ne 0 ]]; then
+        repo=$(git_main_branch)
+    fi
+
+    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show --stat
+}
+
+feature-branch () {
+    name=${1:="issue$(gh issue list --author "@me" -L 1 --json number --jq '.[].number')"}
+    base=${2:=$(git_develop_branch)}
+
+    git branch | sed 's/^[* ] //' | grep -q -E "^${base}$"
+
+    if [[ $? -ne 0 ]]; then
+        base=$(git_main_branch)
+    fi
+
+    git checkout -b jcreekmore/${name} ${base}
+}
+
+git-switch-branch () {
+    branch=${1:=$(git branch | grep -v "^*" | tr -d ' ' | fzf --ansi --preview "git show --color --pretty='format:%Cgreen%s%Creset%n%n%b' -s {}")}
+
+    if [[ ! -z ${branch} ]]; then 
+        git switch ${branch}
+    fi
+}
+
+git-fixup () {
+    commit=$1
+    repo=${2:=$(git_develop_branch)}
+
+    git branch | sed 's/^[* ] //' | grep -q -E "^${repo}$"
+
+    if [[ $? -ne 0 ]]; then
+        repo=$(git_main_branch)
+    fi
+
+    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git commit --fixup
+}
+
+git-autosquash () {
+    repo=${1:=$(git_develop_branch)}
+
+    git branch | sed 's/^[* ] //' | grep -q -E "^${repo}$"
+
+    if [[ $? -ne 0 ]]; then
+        repo=$(git_main_branch)
+    fi
+
+    git rebase --interactive --autosquash ${repo}
+}
+
+alias grv='git-review'
+alias grs='git-revshow'
+alias grst='git-revshow-stat'
+alias gcfix='git-fixup'
+alias grbia='git-autosquash'
+alias gsw='git-switch-branch'
 
 #if [[ $(uname -s) == "Darwin" ]]; then
 	#OPENSSL_PREFIX=$(brew --prefix openssl)
@@ -202,10 +263,10 @@ alias vim=nvim
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS0='$ ' && return
 
-type starship >/dev/null 2>&1
-if [[ $? -eq 0 ]]; then
-	eval $(starship init zsh)
-fi
+#type starship >/dev/null 2>&1
+#if [[ $? -eq 0 ]]; then
+	#eval $(starship init zsh)
+#fi
 
 # Enable keychain
 type -p keychain 2>&1 > /dev/null
@@ -222,4 +283,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+type -p brew 2>&1 > /dev/null
+if [ $? -eq 0 ]; then
+    export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+fi
