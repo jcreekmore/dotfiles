@@ -123,13 +123,6 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
  nnoremap <C-k> <C-w>k
  nnoremap <C-l> <C-w>l
 
-" Press i to enter insert mode, and ii to exit insert mode.
-:inoremap ii <Esc>
-:inoremap jk <Esc>
-:inoremap kj <Esc>
-:vnoremap jk <Esc>
-:vnoremap kj <Esc>
-
 " Set completeopt to have a better completion experience
 " :help completeopt
 " menuone: popup even when there's only one match
@@ -186,6 +179,9 @@ local opts = {
     },
 }
 
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
 require('rust-tools').setup(opts)
 
 local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
@@ -236,6 +232,10 @@ vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<Leader>fr', builtin.lsp_references, {})
 vim.keymap.set('n', '<Leader>fi', builtin.lsp_implementations, {})
 vim.keymap.set('n', '<Leader>fd', builtin.lsp_definitions, {})
+vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, { desc = "Rename symbol" })
+vim.keymap.set('n', '<Leader>fs', function()
+builtin.lsp_document_symbols({symbol_width=50, symbols={"method", "function"}})
+end, {})
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
 
 -- Setup Completion

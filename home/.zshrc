@@ -53,7 +53,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras fzf httpie starship)
+plugins=(git git-extras fzf httpie starship dotenv)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
@@ -184,7 +184,7 @@ git-revshow () {
         repo=$(git_main_branch)
     fi
 
-    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show
+    git-review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show
 }
 
 git-revshow-stat () {
@@ -197,7 +197,7 @@ git-revshow-stat () {
         repo=$(git_main_branch)
     fi
 
-    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show --stat
+    git-review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git show --stat
 }
 
 feature-branch () {
@@ -214,7 +214,7 @@ feature-branch () {
 }
 
 git-switch-branch () {
-    branch=${1:=$(git branch | grep -v "^*" | tr -d ' ' | fzf --ansi --preview "git show --color --pretty='format:%Cgreen%s%Creset%n%n%b' -s {}")}
+    branch=${1:=$(git branch | grep -v "^*" | tr -d ' ' | fzf --cycle --ansi --preview "git show --color --pretty='format:%Cgreen%s%Creset%n%n%b' -s {}")}
 
     if [[ ! -z ${branch} ]]; then 
         git switch ${branch}
@@ -231,7 +231,7 @@ git-fixup () {
         repo=$(git_main_branch)
     fi
 
-    git_review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git commit --fixup
+    git-review ${repo} | head -n ${commit} | tail -n 1 | awk '{print $2}' | xargs git commit --fixup
 }
 
 git-autosquash () {
