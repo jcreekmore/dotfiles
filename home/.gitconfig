@@ -1,5 +1,7 @@
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = true
 [user]
 	name = Jonathan Creekmore
 	email = jonathan@thecreekmores.org
@@ -7,22 +9,12 @@
 [core]
 	excludesfile = /Users/jonathan/.gitignore_global
 
-	pager = delta
-[delta]
-    features = decorations
+[merge]
+    conflictstyle = zdiff3
 
-[delta "interactive"]
-    keep-plus-minus-markers = false
-
-[delta "decorations"]
-    commit-decoration-style = blue ol
-    commit-style = raw
-    file-style = omit
-    hunk-header-decoration-style = blue box
-    hunk-header-file-style = red
-    hunk-header-line-number-style = "#067a00"
-    hunk-header-style = file line-number syntax
-    line-numbers = true
+[diff]
+    external = difft
+	algorithm = histogram
 
 [credential]
 	helper = osxkeychain
@@ -35,16 +27,32 @@
 	smtpserverport = 587
 [branch]
 	autosetuprebase = always
+	sort = -committerdate
 [log]
 	decorate = auto
 [color]
 	ui = auto
 [credentials]
 	helper = store
-[filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-[url "ssh://git@github.rackspace.com/"]
-	insteadOf = https://github.rackspace.com/
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+	verbose = true
+[init]
+	defaultBranch = main
+[tag]
+	sort = version:refname
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+[pull]
+	rebase = true
