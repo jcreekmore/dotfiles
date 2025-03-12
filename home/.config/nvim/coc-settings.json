@@ -1,3 +1,12 @@
 {
-  "python.pythonPath": "./.venv/bin/python"
+  "python.pythonPath": "./.venv/bin/python",
+  "prettier.disableSuccessMessage": true,
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.semi": false,
+  "prettier.jsxSingleQuote": true,
+  "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescriptreact", "javascript", "json"]
 }
