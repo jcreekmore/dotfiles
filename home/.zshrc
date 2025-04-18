@@ -49,17 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-<<<<<<< Updated upstream
-plugins=(git git-extras fzf httpie gh starship direnv pyenv nvm rust)
-||||||| Stash base
-plugins=(git git-extras fzf httpie gh starship direnv pyenv)
-=======
-plugins=(git git-extras fzf httpie gh starship direnv pyenv nvm brew)
->>>>>>> Stashed changes
+plugins=(git git-extras fzf httpie gh starship direnv uv pyenv nvm rvm rust)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
@@ -76,42 +66,15 @@ if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-syntax-highlighting ]]; then
 	plugins+=(zsh-syntax-highlighting)
 fi
 
-# User configuration
+if [[ $(uname -s) == "Darwin" ]]; then
+    plugins+=(brew)
+fi
 
-# export PATH="$HOME/.cabal/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
+# User configuration
 
 source $ZSH/oh-my-zsh.sh
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 export EDITOR='nvim'
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#
-
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 if [[ $(uname -s) == "Linux" ]]; then
 	alias open='xdg-open'
@@ -261,19 +224,11 @@ alias gsw='git-switch-branch'
 
 if [[ $(uname -s) == "Darwin" ]]; then
     export LIBTORCH=$(brew --prefix pytorch)
-	#OPENSSL_PREFIX=$(brew --prefix openssl)
-	#export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
-	#export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS0='$ ' && return
-
-#type starship >/dev/null 2>&1
-#if [[ $? -eq 0 ]]; then
-	#eval $(starship init zsh)
-#fi
 
 # Enable keychain
 type -p keychain 2>&1 > /dev/null
@@ -284,17 +239,10 @@ if [ $? -eq 0 ]; then
     unset keyfiles
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 type -p brew 2>&1 > /dev/null
 if [ $? -eq 0 ]; then
     export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 test -e "${HOME}/.config/op/plugins.sh" && source "${HOME}/.config/op/plugins.sh"
