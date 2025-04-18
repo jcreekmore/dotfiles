@@ -53,7 +53,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras fzf httpie gh starship direnv pyenv)
+plugins=(git git-extras fzf httpie gh starship direnv pyenv nvm rust)
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
@@ -287,3 +287,9 @@ type -p brew 2>&1 > /dev/null
 if [ $? -eq 0 ]; then
     export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 fi
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
