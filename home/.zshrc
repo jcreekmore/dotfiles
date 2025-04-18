@@ -53,7 +53,13 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+<<<<<<< Updated upstream
 plugins=(git git-extras fzf httpie gh starship direnv pyenv nvm rust)
+||||||| Stash base
+plugins=(git git-extras fzf httpie gh starship direnv pyenv)
+=======
+plugins=(git git-extras fzf httpie gh starship direnv pyenv nvm brew)
+>>>>>>> Stashed changes
 
 if [[ -d $ZSH_CUSTOM_PLUGINS/zsh-autosuggestions ]]; then
 	zmodload zsh/zpty
@@ -253,11 +259,12 @@ alias gcfix='git-fixup'
 alias grbia='git-autosquash'
 alias gsw='git-switch-branch'
 
-#if [[ $(uname -s) == "Darwin" ]]; then
+if [[ $(uname -s) == "Darwin" ]]; then
+    export LIBTORCH=$(brew --prefix pytorch)
 	#OPENSSL_PREFIX=$(brew --prefix openssl)
 	#export OPENSSL_INCLUDE_DIR=${OPENSSL_PREFIX}/include
 	#export OPENSSL_LIB_DIR=${OPENSSL_PREFIX}/lib
-#fi
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -277,8 +284,6 @@ if [ $? -eq 0 ]; then
     unset keyfiles
 fi
 
-export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -292,4 +297,4 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
+test -e "${HOME}/.config/op/plugins.sh" && source "${HOME}/.config/op/plugins.sh"
