@@ -7,4 +7,4 @@ truncation_length = 5
 pyenv_version_name = true
 
 [kubernetes]
-disabled = false
+disabled = true
