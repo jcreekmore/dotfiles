@@ -98,6 +98,12 @@ let mapleader = ","
 lua <<EOF
 local nvim_lsp = require'lspconfig'
 
+vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+        vim.diagnostic.open_float(nil, { focusable = false })
+    end
+})
+
 local opts = {
     tools = { -- rust-tools options
         autoSetHints = true,
@@ -139,7 +145,7 @@ local opts = {
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
-require('rust-tools').setup(opts)
+-- require('rust-tools').setup(opts)
 
 local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -231,6 +237,18 @@ cmp.setup({
 })
 
 nvim_lsp.pyright.setup{}
+nvim_lsp.rust_analyzer.setup{
+  settings = {
+    ['rust-analyzer'] = {
+      diagnostics = {
+        enable = false;
+      },
+      cargo = {
+        targetDir = 'target-analyzer';
+      }
+    }
+  }
+}
 
 require("typescript-tools").setup {}
 
@@ -260,6 +278,9 @@ if has("autocmd")
 
     " Yaml 
     autocmd FileType yaml set tabstop=2|set shiftwidth=2|set expandtab
+
+    au BufNewFile,BufRead */ansible/roles/*/files/*.{automount,mount,path,service,socket,swap,target,timer}  setf systemd
+
     augroup END
 else
     set autoindent
