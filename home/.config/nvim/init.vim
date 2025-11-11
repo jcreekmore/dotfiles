@@ -33,19 +33,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'mason-org/mason.nvim'
   Plug 'mason-org/mason-lspconfig.nvim'
 
-  " Completion (nvim-cmp stack)
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/cmp-vsnip'
-
-  " TypeScript helper
-  Plug 'pmizio/typescript-tools.nvim'
-
   " Syntax extras
-  Plug 'honza/vim-snippets'
   Plug 'ekalinin/Dockerfile.vim'
   Plug 'vim-python/python-syntax'
   Plug 'hashivim/vim-terraform'
@@ -108,58 +96,26 @@ endif
 " Markdown fenced language hints
 let g:vim_markdown_fenced_languages = ['rust=rust', 'json=json', 'diff=diff']
 
-" Link an LSP semantic token to rustKeyword if you like
-hi! link @lsp.type.keyword.rust rustKeyword
-
 " --------- Lua block: LSP, diagnostics, telescope, treesitter ---------
 "
 lua<<EOF
 
--- ===== NATIVE LSP (0.11+) =====
--- Capabilities for nvim-cmp
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
--- Define per-server configs first
-vim.lsp.config('pyright', {
-  capabilities = capabilities,
+vim.lsp.config('*', {
+  root_markers = { '.git' },
 })
 
-vim.lsp.config('rust_analyzer', {
-  capabilities = capabilities,
+vim.lsp.config("rust_analyzer", {
   settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = { command = 'clippy' },
-      cargo = { buildScripts = { enable = false }, targetDir = 'target-analyzer' },
+    ["rust-analyzer"] = {
+      cargo = { buildScripts = { enable = false }, targetDir = "target-analyzer" },
       diagnostics = { enable = true },
     },
   },
 })
 
--- Optional: TypeScript via typescript-tools (keeps its own setup)
-require('typescript-tools').setup({})
-
--- Enable inlay hints toggle
-vim.keymap.set('n', '<Leader>ih', function()
-  local enabled = vim.lsp.inlay_hint.is_enabled and vim.lsp.inlay_hint.is_enabled(0)
-  vim.lsp.inlay_hint.enable(0, not enabled)
-end, { desc = 'Toggle inlay hints' })
-
--- Format Rust on save
-local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.rs",
-  callback = function() vim.lsp.buf.format({ async = false, timeout_ms = 500 }) end,
-  group = format_sync_grp,
-})
-
--- ===== Mason (updated org) =====
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = { 'pyright', 'rust_analyzer' },
-  -- Auto-enable any installed servers using the new API
-  handlers = {
-    function(server) vim.lsp.enable(server) end,
-  },
+  ensure_installed = { 'rust_analyzer', 'pyright', 'ts_ls' },
 })
 
 -- ===== Telescope =====
@@ -205,4 +161,7 @@ require('nvim-treesitter.configs').setup {
   highlight = { enable = true, additional_vim_regex_highlighting = false },
 }
 EOF
+
+" Link an LSP semantic token to rustKeyword if you like
+hi! link @lsp.type.keyword.rust rustKeyword
 
