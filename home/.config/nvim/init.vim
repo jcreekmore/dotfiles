@@ -10,6 +10,7 @@ let g:python3_host_prog="$PYENV_GLOBAL_PYTHON3"
 call plug#begin("~/.vim/plugged")
   " UI / colors
   Plug 'dracula/vim'
+  Plug 'catppuccin/nvim'
   Plug 'arcticicestudio/nord-vim'
   Plug 'nvim-tree/nvim-web-devicons'      " replaces ryanoasis/vim-devicons for nvim
 
@@ -41,7 +42,7 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 
 " Theme
-colorscheme dracula
+colorscheme catppuccin-latte
 let g:python_highlight_all = 1
 
 " ---------------- Movement & splits ----------------
