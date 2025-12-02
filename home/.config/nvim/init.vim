@@ -112,6 +112,20 @@ vim.lsp.config("rust_analyzer", {
       diagnostics = { enable = true },
     },
   },
+
+  on_attach = function(client, bufnr)
+    -- Ensure the LSP advertises formatting capability
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_create_augroup("_rust_fmt", { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = "_rust_fmt",
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
+    end
+  end,
 })
 
 require('mason').setup()
